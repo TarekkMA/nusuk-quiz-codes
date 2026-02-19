@@ -1,5 +1,6 @@
 // State management
 const STORAGE_KEY = 'usedCodes';
+const PRIORITY_CODES = ['NG-Ydn0hQlj'];
 let allCodes = [];
 let usedCodes = [];
 let currentCode = null;
@@ -25,7 +26,11 @@ function init() {
 }
 
 // Get random unused code
-function getRandomUnusedCode() {
+function getNextUnusedCode() {
+    const priorityUnused = PRIORITY_CODES.filter(code => !usedCodes.includes(code));
+    if (priorityUnused.length > 0) {
+        return priorityUnused[Math.floor(Math.random() * priorityUnused.length)];
+    }
     const unusedCodes = allCodes.filter(code => !usedCodes.includes(code));
 
     if (unusedCodes.length === 0) {
@@ -38,7 +43,7 @@ function getRandomUnusedCode() {
 
 // Show next unused code
 function showNextUnusedCode() {
-    const nextCode = getRandomUnusedCode();
+    const nextCode = getNextUnusedCode();
 
     if (nextCode === null) {
         // All codes have been used
@@ -60,7 +65,7 @@ function showNextUnusedCode() {
 // Update progress display
 function updateProgress() {
     const remaining = allCodes.length - usedCodes.length;
-    progressDisplay.textContent = `${remaining} codes remaining`;
+    progressDisplay.textContent = `${usedCodes.length} used • ${remaining} remaining`;
 }
 
 // Save current code to localStorage
