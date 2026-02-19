@@ -1,6 +1,10 @@
 // State management
 const STORAGE_KEY = 'usedCodes';
-const PRIORITY_CODES = ['NG-Ydn0hQlj'];
+const PRIORITY_CODES = [
+    'NG-Ydn0hQlj', // T
+    'NG-RoFVDevO', // M
+    'NG-shW1s48K', // B
+];
 let allCodes = [];
 let usedCodes = [];
 let currentCode = null;
