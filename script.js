@@ -51,8 +51,8 @@ function showNextUnusedCode() {
     const nextCode = getNextUnusedCode();
 
     if (nextCode === null) {
-        // All codes have been used
         codeDisplay.innerHTML = '<span class="placeholder">تم استخدام جميع الأكواد! 🎉</span>';
+        codeDisplay.setAttribute('aria-label', 'تم استخدام جميع الأكواد');
         progressDisplay.textContent = `${usedCodes.length} / ${allCodes.length} كود مستخدم`;
         copyBtn.disabled = true;
         linkBtn.disabled = true;
@@ -63,6 +63,7 @@ function showNextUnusedCode() {
 
     currentCode = nextCode;
     codeDisplay.innerHTML = `<span class="code">${escapeHtml(currentCode)}</span>`;
+    codeDisplay.setAttribute('aria-label', `الرمز الحالي: ${currentCode}`);
     updateProgress();
     copyBtn.disabled = false;
     linkBtn.disabled = false;
@@ -72,7 +73,7 @@ function showNextUnusedCode() {
 // Update progress display
 function updateProgress() {
     const remaining = allCodes.length - usedCodes.length;
-    progressDisplay.textContent = `${usedCodes.length} used • ${remaining} remaining`;
+    progressDisplay.textContent = `${usedCodes.length} مستخدم • ${remaining} متبقي`;
 }
 
 // Save current code to localStorage
@@ -140,8 +141,13 @@ nextBtn.addEventListener('click', () => {
 codeDisplay.addEventListener('click', copyCode);
 codeDisplay.style.cursor = 'pointer';
 
-// Keyboard shortcuts
+// Keyboard shortcuts -- only trigger when not focused on an interactive element
 document.addEventListener('keydown', (e) => {
+    const tag = e.target.tagName;
+    const isInteractive = tag === 'BUTTON' || tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'A' || tag === 'SELECT';
+
+    if (isInteractive) return;
+
     if (e.key === 'c' || e.key === 'C') {
         copyCode();
     } else if (e.key === ' ' || e.key === 'Enter') {

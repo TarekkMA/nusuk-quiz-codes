@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tarekkma.github.io/nusuk-quiz-codes/sitemap.xml
