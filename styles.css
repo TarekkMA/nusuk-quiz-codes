@@ -130,6 +130,10 @@ h1 {
     font-family: inherit;
 }
 
+.btn i {
+    font-size: 18px;
+}
+
 .btn-copy {
     background: transparent;
     color: var(--primary-gold);
@@ -143,6 +147,22 @@ h1 {
 }
 
 .btn-copy:active {
+    transform: translateY(0);
+}
+
+.btn-link {
+    background: transparent;
+    color: var(--primary-gold);
+    font-weight: 600;
+    border: 1px solid var(--primary-gold);
+}
+
+.btn-link:hover {
+    background: rgba(201, 162, 58, 0.08);
+    transform: translateY(-1px);
+}
+
+.btn-link:active {
     transform: translateY(0);
 }
 
@@ -250,7 +270,7 @@ h1 {
 .social-links a {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     color: var(--text-secondary);
     text-decoration: none;
     font-size: 13px;
@@ -269,9 +289,8 @@ h1 {
     box-shadow: 0 2px 8px rgba(201, 162, 58, 0.15);
 }
 
-.social-links svg {
-    width: 16px;
-    height: 16px;
+.social-links i {
+    font-size: 16px;
 }
 
 /* Mobile optimizations */

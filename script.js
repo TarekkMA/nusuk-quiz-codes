@@ -9,6 +9,7 @@ let currentCode = null;
 const codeDisplay = document.getElementById('codeDisplay');
 const progressDisplay = document.getElementById('progress');
 const copyBtn = document.getElementById('copyBtn');
+const linkBtn = document.getElementById('linkBtn');
 const nextBtn = document.getElementById('nextBtn');
 const toast = document.getElementById('toast');
 
@@ -47,9 +48,10 @@ function showNextUnusedCode() {
 
     if (nextCode === null) {
         // All codes have been used
-        codeDisplay.innerHTML = '<span class="placeholder">All codes used! 🎉</span>';
-        progressDisplay.textContent = `${usedCodes.length} / ${allCodes.length} codes used`;
+        codeDisplay.innerHTML = '<span class="placeholder">تم استخدام جميع الأكواد! 🎉</span>';
+        progressDisplay.textContent = `${usedCodes.length} / ${allCodes.length} كود مستخدم`;
         copyBtn.disabled = true;
+        linkBtn.disabled = true;
         nextBtn.disabled = true;
         currentCode = null;
         return;
@@ -59,6 +61,7 @@ function showNextUnusedCode() {
     codeDisplay.innerHTML = `<span class="code">${escapeHtml(currentCode)}</span>`;
     updateProgress();
     copyBtn.disabled = false;
+    linkBtn.disabled = false;
     nextBtn.disabled = false;
 }
 
@@ -97,6 +100,13 @@ async function copyCode() {
     }
 }
 
+// Open code link in new tab
+function openCodeLink() {
+    if (!currentCode) return;
+    const url = `https://services.nusuk.sa/app?p=27&id=${currentCode}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+}
+
 // Show toast notification
 function showToast() {
     toast.classList.add('show');
@@ -114,6 +124,8 @@ function escapeHtml(text) {
 
 // Event listeners
 copyBtn.addEventListener('click', copyCode);
+
+linkBtn.addEventListener('click', openCodeLink);
 
 nextBtn.addEventListener('click', () => {
     saveCurrentCode();
