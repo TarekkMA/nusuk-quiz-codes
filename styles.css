@@ -1,0 +1,348 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Primary Gold */
+    --primary-gold: #C9A23A;
+    --primary-gold-hover: #8C6A12;
+    --gold-border: rgba(201, 162, 58, 0.25);
+
+    /* Accent */
+    --accent-maroon: #B11E35;
+    --accent-maroon-hover: #8a1829;
+
+    /* Neutrals */
+    --bg-color: #FAF9F6;
+    --card-bg: #ffffff;
+    --text-primary: #2B2B2B;
+    --text-secondary: #6B6B6B;
+    --code-bg: #FFF4D6;
+
+    /* Borders */
+    --border-color: rgba(201, 162, 58, 0.25);
+    --divider-color: #e5e5e5;
+
+    /* Spacing */
+    --radius: 16px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-color) url('bg.avif') center center / cover no-repeat fixed;
+    padding: 20px;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 32px 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--border-color);
+}
+
+h1 {
+    color: var(--text-primary);
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.code-display {
+    background: var(--code-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 24px;
+    text-align: center;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    transition: all 0.2s ease;
+}
+
+.code-display:hover {
+    border-color: var(--primary-gold);
+}
+
+.code {
+    font-family: ui-monospace, 'SF Mono', 'SF Mono Regular', 'Consolas', 'Liberation Mono', monospace;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.08em;
+    word-break: break-all;
+    user-select: all;
+}
+
+.placeholder {
+    color: var(--text-secondary);
+    font-size: 16px;
+}
+
+.progress {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+
+.buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 20px;
+    border-radius: var(--radius);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.btn-copy {
+    background: transparent;
+    color: var(--primary-gold);
+    font-weight: 600;
+    border: 1px solid var(--primary-gold);
+}
+
+.btn-copy:hover {
+    background: rgba(201, 162, 58, 0.08);
+    transform: translateY(-1px);
+}
+
+.btn-copy:active {
+    transform: translateY(0);
+}
+
+.btn-next {
+    background: var(--accent-maroon);
+    color: white;
+    font-weight: 600;
+    border: 1px solid var(--accent-maroon);
+}
+
+.btn-next:hover {
+    background: var(--accent-maroon-hover);
+    transform: translateY(-1px);
+}
+
+.btn-next:active {
+    transform: translateY(0);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--accent-maroon);
+    color: white;
+    padding: 12px 24px;
+    border-radius: var(--radius);
+    font-weight: 600;
+    opacity: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(177, 30, 53, 0.3);
+}
+
+.toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+/* Logo */
+.logo {
+    text-align: center;
+}
+
+.logo img {
+    width: 140px;
+    height: 140px;
+    border-radius: var(--radius);
+    object-fit: cover;
+}
+
+/* Prayer & Developer sections inside card */
+.prayer {
+    background: var(--code-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-top: 24px;
+    text-align: center;
+}
+
+.prayer .arabic {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--primary-gold-hover);
+    margin: 0 0 6px 0;
+    direction: rtl;
+    font-family: 'Traditional Arabic', 'Arial', sans-serif;
+}
+
+.prayer .translation {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.developer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.developer p {
+    color: var(--text-secondary);
+    font-size: 13px;
+    margin: 0 0 10px 0;
+}
+
+.developer .name {
+    color: var(--primary-gold-hover);
+    font-weight: 600;
+}
+
+.social-links {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 13px;
+    padding: 8px 14px;
+    border-radius: var(--radius);
+    background: #f5f5f5;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.social-links a:hover {
+    background: var(--code-bg);
+    border-color: var(--primary-gold);
+    color: var(--primary-gold-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(201, 162, 58, 0.15);
+}
+
+.social-links svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Mobile optimizations */
+@media (max-width: 480px) {
+    .card {
+        padding: 24px 20px;
+    }
+
+    .logo img {
+        width: 100px;
+        height: 100px;
+        border-radius: var(--radius);
+    }
+
+    h1 {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .code-display {
+        padding: 20px 16px;
+    }
+
+    .code {
+        font-size: 22px;
+        letter-spacing: 1px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .prayer {
+        margin-top: 20px;
+        padding: 14px 16px;
+    }
+
+    .prayer .arabic {
+        font-size: 15px;
+    }
+
+    .prayer .translation {
+        font-size: 11px;
+    }
+
+    .developer {
+        margin-top: 16px;
+    }
+
+    .developer p {
+        font-size: 12px;
+    }
+
+    .social-links {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .social-links a {
+        justify-content: center;
+    }
+}
+
+/* Dark mode support - disabled for white/gold theme */
+/* @media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #0f172a;
+        --card-bg: rgba(30, 41, 59, 0.9);
+    }
+} */
