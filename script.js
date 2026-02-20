@@ -4,6 +4,7 @@ const PRIORITY_CODES = [
     'NG-Ydn0hQlj', // T
     'NG-RoFVDevO', // M
     'NG-shW1s48K', // B
+    'NG-GI9Ne6yS' // N
 ];
 let allCodes = [];
 let usedCodes = [];
