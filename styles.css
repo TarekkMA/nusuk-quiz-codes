@@ -528,6 +528,70 @@ h1 .subtitle {
     background: var(--primary-gold);
 }
 
+/* FAQ section */
+.faq {
+    margin-top: 24px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.faq h2 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    padding: 16px 20px 12px;
+    text-align: center;
+}
+
+.faq-item {
+    border-top: 1px solid var(--divider-color);
+}
+
+.faq-item summary {
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    transition: background 0.2s ease;
+}
+
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-item summary::after {
+    content: '+';
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+}
+
+.faq-item[open] summary::after {
+    content: '−';
+}
+
+.faq-item summary:hover {
+    background: rgba(201, 162, 58, 0.04);
+}
+
+.faq-item p {
+    padding: 0 20px 14px;
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
 /* Prayer & Developer sections inside card */
 .prayer {
     background: var(--code-bg);
@@ -567,6 +631,13 @@ h1 .subtitle {
 .developer .name {
     color: var(--primary-gold-hover);
     font-weight: 600;
+}
+
+.footer-collab {
+    color: var(--text-secondary);
+    font-size: 11px;
+    margin: 0 0 10px 0;
+    opacity: 0.7;
 }
 
 .social-links {
@@ -689,6 +760,15 @@ h1 .subtitle {
     }
 
     .how-to-use li {
+        font-size: 12px;
+    }
+
+    .faq {
+        margin-top: 20px;
+    }
+
+    .faq-item summary,
+    .faq-item p {
         font-size: 12px;
     }
 
