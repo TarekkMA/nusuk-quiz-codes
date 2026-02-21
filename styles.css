@@ -68,18 +68,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--bg-color) url('bg.avif') center center / cover no-repeat fixed;
+    background: var(--bg-color) url('bg.avif') center center / cover no-repeat;
     padding: 20px;
-}
-
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
 }
 
 .container {
@@ -172,8 +162,10 @@ h1 .subtitle {
     font-family: inherit;
 }
 
-.btn i {
-    font-size: 18px;
+.btn .icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
 }
 
 .btn-copy {
@@ -396,8 +388,10 @@ h1 .subtitle {
     box-shadow: 0 2px 8px rgba(201, 162, 58, 0.15);
 }
 
-.social-links i {
-    font-size: 16px;
+.social-links .icon-sm {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
 }
 
 /* Focus styles for keyboard navigation */
