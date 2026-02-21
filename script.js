@@ -119,6 +119,58 @@ function showToast() {
     }, 2000);
 }
 
+// Share
+const SHARE_URL = 'https://tarekkma.github.io/nusuk-quiz-codes/';
+const SHARE_TEXT = 'أداة تجمع أكثر من ١٧٠٠ مفتاح لمسابقة نسك الرمضانية 🌙\nجاوب على الأسئلة وادخل السحب اليومي للفوز برحلة عمرة كاملة 🎁';
+const shareBtn = document.getElementById('shareBtn');
+const shareOverlay = document.getElementById('shareOverlay');
+const shareClose = document.getElementById('shareClose');
+const shareWhatsApp = document.getElementById('shareWhatsApp');
+const shareFacebook = document.getElementById('shareFacebook');
+const shareTwitter = document.getElementById('shareTwitter');
+const shareCopyLink = document.getElementById('shareCopyLink');
+
+function openShareModal() {
+    if (navigator.share) {
+        navigator.share({ title: 'مفاتيح مسابقة نسك الرمضانية للفوز بعمرة', text: SHARE_TEXT, url: SHARE_URL }).catch(() => {});
+        return;
+    }
+
+    shareWhatsApp.href = `https://wa.me/?text=${encodeURIComponent(SHARE_TEXT + '\n' + SHARE_URL)}`;
+    shareFacebook.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(SHARE_URL)}`;
+    shareTwitter.href = `https://x.com/intent/tweet?text=${encodeURIComponent(SHARE_TEXT)}&url=${encodeURIComponent(SHARE_URL)}`;
+
+    shareOverlay.classList.add('active');
+    shareOverlay.setAttribute('aria-hidden', 'false');
+}
+
+function closeShareModal() {
+    shareOverlay.classList.remove('active');
+    shareOverlay.setAttribute('aria-hidden', 'true');
+}
+
+shareBtn.addEventListener('click', openShareModal);
+shareClose.addEventListener('click', closeShareModal);
+shareOverlay.addEventListener('click', (e) => {
+    if (e.target === shareOverlay) closeShareModal();
+});
+
+shareCopyLink.addEventListener('click', async () => {
+    try {
+        await navigator.clipboard.writeText(SHARE_URL);
+    } catch (e) {
+        const t = document.createElement('textarea');
+        t.value = SHARE_URL;
+        t.style.cssText = 'position:fixed;opacity:0';
+        document.body.appendChild(t);
+        t.select();
+        document.execCommand('copy');
+        document.body.removeChild(t);
+    }
+    closeShareModal();
+    showToast();
+});
+
 copyBtn.addEventListener('click', copyCode);
 linkBtn.addEventListener('click', openCodeLink);
 
@@ -131,6 +183,8 @@ codeDisplay.addEventListener('click', copyCode);
 codeDisplay.style.cursor = 'pointer';
 
 document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { closeShareModal(); return; }
+
     const tag = e.target.tagName;
     if (tag === 'BUTTON' || tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'A' || tag === 'SELECT') return;
 

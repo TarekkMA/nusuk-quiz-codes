@@ -319,6 +319,172 @@ h1 .subtitle {
     line-height: 1.5;
 }
 
+/* Share button */
+.btn-share {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 24px;
+    padding: 12px 20px;
+    border-radius: var(--radius);
+    border: 1px dashed var(--primary-gold);
+    background: rgba(201, 162, 58, 0.06);
+    color: var(--primary-gold-hover);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-share .icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.btn-share:hover {
+    background: rgba(201, 162, 58, 0.12);
+    border-style: solid;
+    transform: translateY(-1px);
+}
+
+.btn-share:active {
+    transform: translateY(0);
+}
+
+/* Share modal overlay */
+.share-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+    padding: 20px;
+}
+
+.share-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.share-modal {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    width: 100%;
+    max-width: 380px;
+    position: relative;
+    transform: translateY(20px) scale(0.95);
+    transition: transform 0.25s ease;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.share-overlay.active .share-modal {
+    transform: translateY(0) scale(1);
+}
+
+.share-close {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: #f5f5f5;
+    border-radius: 50%;
+    font-size: 20px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+    line-height: 1;
+}
+
+.share-close:hover {
+    background: #e5e5e5;
+    color: var(--text-primary);
+}
+
+.share-modal h2 {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 6px 0;
+}
+
+.share-subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0 0 20px 0;
+    line-height: 1.5;
+}
+
+.share-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.share-opt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    color: white;
+}
+
+.share-opt svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.share-opt:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.1);
+}
+
+.share-opt:active {
+    transform: translateY(0);
+}
+
+.share-whatsapp {
+    background: #25D366;
+}
+
+.share-facebook {
+    background: #1877F2;
+}
+
+.share-twitter {
+    background: #000;
+}
+
+.share-copylink {
+    background: var(--primary-gold);
+}
+
 /* Prayer & Developer sections inside card */
 .prayer {
     background: var(--code-bg);
