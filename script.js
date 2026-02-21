@@ -29,10 +29,10 @@ function init() {
         }
     }
 
+    applyLanguage(detectLanguage(), false);
     showNextUnusedCode();
 }
 
-// Set.has() is O(1) vs Array.includes() which is O(n)
 function getNextUnusedCode() {
     const priorityUnused = PRIORITY_CODES.filter(code => !usedCodesSet.has(code));
     if (priorityUnused.length > 0) {
@@ -52,10 +52,10 @@ function showNextUnusedCode() {
         codeDisplay.textContent = '';
         const placeholder = document.createElement('span');
         placeholder.className = 'placeholder';
-        placeholder.textContent = 'تم استخدام جميع الأكواد! 🎉';
+        placeholder.textContent = t('allUsed');
         codeDisplay.appendChild(placeholder);
-        codeDisplay.setAttribute('aria-label', 'تم استخدام جميع الأكواد');
-        progressDisplay.textContent = `${usedCodesSet.size} / ${allCodes.length} كود مستخدم`;
+        codeDisplay.setAttribute('aria-label', t('allUsedAria'));
+        progressDisplay.textContent = t('progressAll', { used: usedCodesSet.size, total: allCodes.length });
         copyBtn.disabled = true;
         linkBtn.disabled = true;
         nextBtn.disabled = true;
@@ -69,7 +69,7 @@ function showNextUnusedCode() {
     codeSpan.className = 'code';
     codeSpan.textContent = currentCode;
     codeDisplay.appendChild(codeSpan);
-    codeDisplay.setAttribute('aria-label', `الرمز الحالي: ${currentCode}`);
+    codeDisplay.setAttribute('aria-label', t('currentCodeAria', { code: currentCode }));
     updateProgress();
     copyBtn.disabled = false;
     linkBtn.disabled = false;
@@ -78,7 +78,7 @@ function showNextUnusedCode() {
 
 function updateProgress() {
     const remaining = allCodes.length - usedCodesSet.size;
-    progressDisplay.textContent = `${usedCodesSet.size} مستخدم • ${remaining} متبقي`;
+    progressDisplay.textContent = t('progressRemaining', { used: usedCodesSet.size, remaining: remaining });
 }
 
 function saveCurrentCode() {
@@ -112,6 +112,7 @@ function openCodeLink() {
 
 function showToast() {
     if (toastTimer) clearTimeout(toastTimer);
+    toast.textContent = t('copied');
     toast.classList.add('show');
     toastTimer = setTimeout(() => {
         toast.classList.remove('show');
@@ -121,7 +122,6 @@ function showToast() {
 
 // Share
 const SHARE_URL = 'https://tarekkma.github.io/nusuk-quiz-codes/';
-const SHARE_TEXT = 'أداة تجمع أكثر من ١٧٠٠ مفتاح لمسابقة نسك الرمضانية 🌙\nجاوب على الأسئلة وادخل السحب اليومي للفوز برحلة عمرة كاملة 🎁';
 const shareBtn = document.getElementById('shareBtn');
 const shareOverlay = document.getElementById('shareOverlay');
 const shareClose = document.getElementById('shareClose');
@@ -131,14 +131,16 @@ const shareTwitter = document.getElementById('shareTwitter');
 const shareCopyLink = document.getElementById('shareCopyLink');
 
 function openShareModal() {
+    const shareText = t('shareText');
+
     if (navigator.share) {
-        navigator.share({ title: 'مفاتيح مسابقة نسك الرمضانية للفوز بعمرة', text: SHARE_TEXT, url: SHARE_URL }).catch(() => {});
+        navigator.share({ title: t('shareNativeTitle'), text: shareText, url: SHARE_URL }).catch(() => {});
         return;
     }
 
-    shareWhatsApp.href = `https://wa.me/?text=${encodeURIComponent(SHARE_TEXT + '\n' + SHARE_URL)}`;
+    shareWhatsApp.href = `https://wa.me/?text=${encodeURIComponent(shareText + '\n' + SHARE_URL)}`;
     shareFacebook.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(SHARE_URL)}`;
-    shareTwitter.href = `https://x.com/intent/tweet?text=${encodeURIComponent(SHARE_TEXT)}&url=${encodeURIComponent(SHARE_URL)}`;
+    shareTwitter.href = `https://x.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(SHARE_URL)}`;
 
     shareOverlay.classList.add('active');
     shareOverlay.setAttribute('aria-hidden', 'false');
@@ -159,17 +161,28 @@ shareCopyLink.addEventListener('click', async () => {
     try {
         await navigator.clipboard.writeText(SHARE_URL);
     } catch (e) {
-        const t = document.createElement('textarea');
-        t.value = SHARE_URL;
-        t.style.cssText = 'position:fixed;opacity:0';
-        document.body.appendChild(t);
-        t.select();
+        const ta = document.createElement('textarea');
+        ta.value = SHARE_URL;
+        ta.style.cssText = 'position:fixed;opacity:0';
+        document.body.appendChild(ta);
+        ta.select();
         document.execCommand('copy');
-        document.body.removeChild(t);
+        document.body.removeChild(ta);
     }
     closeShareModal();
     showToast();
 });
+
+// Language toggle
+document.getElementById('langToggle').addEventListener('click', toggleLanguage);
+
+function onLanguageChanged() {
+    if (currentCode) {
+        codeDisplay.setAttribute('aria-label', t('currentCodeAria', { code: currentCode }));
+    }
+    updateProgress();
+    toast.textContent = t('copied');
+}
 
 copyBtn.addEventListener('click', copyCode);
 linkBtn.addEventListener('click', openCodeLink);
