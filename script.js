@@ -1,4 +1,3 @@
-// State management
 const STORAGE_KEY = 'usedCodes';
 const PRIORITY_CODES = [
     'NG-Ydn0hQlj', // T
@@ -7,10 +6,10 @@ const PRIORITY_CODES = [
     'NG-GI9Ne6yS' // N
 ];
 let allCodes = [];
-let usedCodes = [];
+let usedCodesSet = new Set();
 let currentCode = null;
+let toastTimer = null;
 
-// DOM elements
 const codeDisplay = document.getElementById('codeDisplay');
 const progressDisplay = document.getElementById('progress');
 const copyBtn = document.getElementById('copyBtn');
@@ -18,43 +17,45 @@ const linkBtn = document.getElementById('linkBtn');
 const nextBtn = document.getElementById('nextBtn');
 const toast = document.getElementById('toast');
 
-// Initialize the app
 function init() {
-    // Load codes from external codes.js file
     allCodes = ALL_CODES;
 
-    // Load used codes from localStorage
     const stored = localStorage.getItem(STORAGE_KEY);
-    usedCodes = stored ? JSON.parse(stored) : [];
+    if (stored) {
+        try {
+            usedCodesSet = new Set(JSON.parse(stored));
+        } catch (e) {
+            usedCodesSet = new Set();
+        }
+    }
 
-    // Show first unused code
     showNextUnusedCode();
 }
 
-// Get random unused code
+// Set.has() is O(1) vs Array.includes() which is O(n)
 function getNextUnusedCode() {
-    const priorityUnused = PRIORITY_CODES.filter(code => !usedCodes.includes(code));
+    const priorityUnused = PRIORITY_CODES.filter(code => !usedCodesSet.has(code));
     if (priorityUnused.length > 0) {
         return priorityUnused[Math.floor(Math.random() * priorityUnused.length)];
     }
-    const unusedCodes = allCodes.filter(code => !usedCodes.includes(code));
 
-    if (unusedCodes.length === 0) {
-        return null; // All codes have been used
-    }
+    const unusedCodes = allCodes.filter(code => !usedCodesSet.has(code));
+    if (unusedCodes.length === 0) return null;
 
-    const randomIndex = Math.floor(Math.random() * unusedCodes.length);
-    return unusedCodes[randomIndex];
+    return unusedCodes[Math.floor(Math.random() * unusedCodes.length)];
 }
 
-// Show next unused code
 function showNextUnusedCode() {
     const nextCode = getNextUnusedCode();
 
     if (nextCode === null) {
-        codeDisplay.innerHTML = '<span class="placeholder">تم استخدام جميع الأكواد! 🎉</span>';
+        codeDisplay.textContent = '';
+        const placeholder = document.createElement('span');
+        placeholder.className = 'placeholder';
+        placeholder.textContent = 'تم استخدام جميع الأكواد! 🎉';
+        codeDisplay.appendChild(placeholder);
         codeDisplay.setAttribute('aria-label', 'تم استخدام جميع الأكواد');
-        progressDisplay.textContent = `${usedCodes.length} / ${allCodes.length} كود مستخدم`;
+        progressDisplay.textContent = `${usedCodesSet.size} / ${allCodes.length} كود مستخدم`;
         copyBtn.disabled = true;
         linkBtn.disabled = true;
         nextBtn.disabled = true;
@@ -63,7 +64,11 @@ function showNextUnusedCode() {
     }
 
     currentCode = nextCode;
-    codeDisplay.innerHTML = `<span class="code">${escapeHtml(currentCode)}</span>`;
+    codeDisplay.textContent = '';
+    const codeSpan = document.createElement('span');
+    codeSpan.className = 'code';
+    codeSpan.textContent = currentCode;
+    codeDisplay.appendChild(codeSpan);
     codeDisplay.setAttribute('aria-label', `الرمز الحالي: ${currentCode}`);
     updateProgress();
     copyBtn.disabled = false;
@@ -71,66 +76,50 @@ function showNextUnusedCode() {
     nextBtn.disabled = false;
 }
 
-// Update progress display
 function updateProgress() {
-    const remaining = allCodes.length - usedCodes.length;
-    progressDisplay.textContent = `${usedCodes.length} مستخدم • ${remaining} متبقي`;
+    const remaining = allCodes.length - usedCodesSet.size;
+    progressDisplay.textContent = `${usedCodesSet.size} مستخدم • ${remaining} متبقي`;
 }
 
-// Save current code to localStorage
 function saveCurrentCode() {
-    if (currentCode && !usedCodes.includes(currentCode)) {
-        usedCodes.push(currentCode);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(usedCodes));
+    if (currentCode && !usedCodesSet.has(currentCode)) {
+        usedCodesSet.add(currentCode);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify([...usedCodesSet]));
     }
 }
 
-// Copy code to clipboard
 async function copyCode() {
     if (!currentCode) return;
 
     try {
         await navigator.clipboard.writeText(currentCode);
-        showToast();
-    } catch (error) {
-        // Fallback for older browsers
+    } catch (e) {
         const textArea = document.createElement('textarea');
         textArea.value = currentCode;
-        textArea.style.position = 'fixed';
-        textArea.style.opacity = '0';
+        textArea.style.cssText = 'position:fixed;opacity:0';
         document.body.appendChild(textArea);
         textArea.select();
         document.execCommand('copy');
         document.body.removeChild(textArea);
-        showToast();
     }
+    showToast();
 }
 
-// Open code link in new tab
 function openCodeLink() {
     if (!currentCode) return;
-    const url = `https://services.nusuk.sa/app?p=27&id=${currentCode}`;
-    window.open(url, '_blank', 'noopener,noreferrer');
+    window.open(`https://services.nusuk.sa/app?p=27&id=${currentCode}`, '_blank', 'noopener,noreferrer');
 }
 
-// Show toast notification
 function showToast() {
+    if (toastTimer) clearTimeout(toastTimer);
     toast.classList.add('show');
-    setTimeout(() => {
+    toastTimer = setTimeout(() => {
         toast.classList.remove('show');
+        toastTimer = null;
     }, 2000);
 }
 
-// Escape HTML to prevent XSS
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-// Event listeners
 copyBtn.addEventListener('click', copyCode);
-
 linkBtn.addEventListener('click', openCodeLink);
 
 nextBtn.addEventListener('click', () => {
@@ -138,16 +127,12 @@ nextBtn.addEventListener('click', () => {
     showNextUnusedCode();
 });
 
-// Make code display clickable to copy
 codeDisplay.addEventListener('click', copyCode);
 codeDisplay.style.cursor = 'pointer';
 
-// Keyboard shortcuts -- only trigger when not focused on an interactive element
 document.addEventListener('keydown', (e) => {
     const tag = e.target.tagName;
-    const isInteractive = tag === 'BUTTON' || tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'A' || tag === 'SELECT';
-
-    if (isInteractive) return;
+    if (tag === 'BUTTON' || tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'A' || tag === 'SELECT') return;
 
     if (e.key === 'c' || e.key === 'C') {
         copyCode();
@@ -158,5 +143,4 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Initialize on load
 init();

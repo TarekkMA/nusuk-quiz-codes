@@ -38,6 +38,7 @@
 
     <link rel="icon" type="image/x-icon" href="fav.ico">
     <link rel="apple-touch-icon" href="logo.png">
+    <link rel="preload" as="image" href="logo.png" fetchpriority="high">
     <link rel="stylesheet" href="styles.css?v=1.7.0">
     <script defer src="codes.js?v=1.6.0"></script>
     <script defer src="script.js?v=1.7.0"></script>
@@ -122,7 +123,7 @@
     <div class="container">
         <main class="card">
             <header class="logo">
-                <img src="logo.png" alt="شعار أكواد نسك" width="140" height="140" loading="eager" onerror="this.style.display='none'">
+                <img src="logo.png" alt="شعار أكواد نسك" width="140" height="140" fetchpriority="high" onerror="this.style.display='none'">
             </header>
             <h1>مفاتيح نسك مجانية <span class="subtitle">أكواد Keys للسحب اليومي على عمرة مجانية</span></h1>
             <div class="code-display" id="codeDisplay" role="region" aria-label="عرض الرمز" tabindex="0" aria-describedby="codeHint">
