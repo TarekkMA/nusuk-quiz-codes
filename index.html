@@ -36,6 +36,7 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://tarekkma.github.io/nusuk-quiz-codes/">
 
+    <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="icon" type="image/x-icon" href="fav.ico">
     <link rel="apple-touch-icon" href="logo.png">
@@ -160,6 +161,11 @@
                 <span data-i18n="shareBtn">شاركنا الأجر والثواب بنشر الأداة</span>
             </button>
 
+            <button class="btn-share btn-install-inline" id="installBtnInline" aria-label="تثبيت التطبيق" hidden>
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span data-i18n="installAccept">تثبيت</span>
+            </button>
+
             <div class="share-overlay" id="shareOverlay" aria-hidden="true">
                 <div class="share-modal" role="dialog" data-i18n-aria="shareModalAria" aria-label="مشاركة الأداة">
                     <button class="share-close" id="shareClose" data-i18n-aria="shareCloseAria" aria-label="إغلاق">&times;</button>
@@ -244,6 +250,21 @@
             <p>Please enable JavaScript to view Nusuk keys and use this site.</p>
         </div>
     </noscript>
+
+    <div class="install-banner" id="installBanner" role="dialog" aria-label="تثبيت التطبيق">
+        <div class="install-banner-content">
+            <h3 data-i18n="installTitle">تثبيت التطبيق</h3>
+            <p data-i18n="installDesc">ثبّت التطبيق على جهازك لحفظ تقدمك والوصول السريع للمفاتيح بدون متصفح.</p>
+            <div class="install-banner-actions">
+                <button class="btn-install-accept" id="installAccept" data-i18n="installAccept">تثبيت التطبيق على جهازك</button>
+                <button class="btn-install-dismiss" id="installDismiss" data-i18n="installDismiss">ليس الآن</button>
+            </div>
+            <label class="install-no-show" for="installNoShow">
+                <input type="checkbox" id="installNoShow">
+                <span data-i18n="installNoShow">عدم إظهار هذه الرسالة مرة أخرى</span>
+            </label>
+        </div>
+    </div>
 
     <!-- Cloudflare Web Analytics -->
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c3396673a214436a9362dce80b9c39eb"}'></script>

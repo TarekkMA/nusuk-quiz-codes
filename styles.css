@@ -393,6 +393,117 @@ h1 .subtitle {
     transform: translateY(0);
 }
 
+/* Inline install button */
+.btn-install-inline {
+    border-style: solid;
+    border-color: var(--accent-maroon);
+    color: var(--accent-maroon);
+    background: rgba(177, 30, 53, 0.04);
+}
+
+.btn-install-inline:hover {
+    background: rgba(177, 30, 53, 0.1);
+    border-color: var(--accent-maroon-hover);
+    color: var(--accent-maroon-hover);
+}
+
+.btn-install-inline[hidden] {
+    display: none;
+}
+
+/* Install banner */
+.install-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--card-bg);
+    border-top: 1px solid var(--border-color);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    z-index: 999;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.install-banner.show {
+    transform: translateY(0);
+}
+
+.install-banner-content {
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.install-banner h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 6px 0;
+}
+
+.install-banner p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0 0 16px 0;
+    line-height: 1.5;
+}
+
+.install-banner-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.install-banner-actions button {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-install-accept {
+    background: var(--accent-maroon);
+    color: white;
+    border: none;
+    box-shadow: 0 2px 8px rgba(177, 30, 53, 0.3);
+}
+
+.btn-install-accept:hover {
+    background: var(--accent-maroon-hover);
+    transform: translateY(-1px);
+}
+
+.btn-install-dismiss {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--divider-color);
+}
+
+.btn-install-dismiss:hover {
+    background: #f5f5f5;
+}
+
+.install-no-show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.install-no-show input {
+    cursor: pointer;
+    accent-color: var(--primary-gold);
+}
+
 /* Share modal overlay */
 .share-overlay {
     position: fixed;

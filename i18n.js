@@ -56,6 +56,11 @@ const TRANSLATIONS = {
         socialAria: 'روابط التواصل الاجتماعي',
         githubAria: 'GitHub - طارق محمد عبدالله',
         facebookAria: 'Facebook - طارق محمد عبدالله',
+        installTitle: 'تثبيت التطبيق',
+        installDesc: 'ثبّت التطبيق على جهازك لحفظ تقدمك والوصول السريع للمفاتيح بدون متصفح.',
+        installAccept: 'تثبيت التطبيق على جهازك',
+        installDismiss: 'ليس الآن',
+        installNoShow: 'عدم إظهار هذه الرسالة مرة أخرى',
         langToggle: 'Change Language',
         langToggleAria: 'Switch to English',
 
@@ -124,6 +129,11 @@ const TRANSLATIONS = {
         socialAria: 'Social media links',
         githubAria: 'GitHub - Tarek Mohamed Abdalla',
         facebookAria: 'Facebook - Tarek Mohamed Abdalla',
+        installTitle: 'Install App',
+        installDesc: 'Install the app on your device to save your progress and quickly access keys without a browser.',
+        installAccept: 'Install the App on Your Device',
+        installDismiss: 'Not Now',
+        installNoShow: "Don't show this again",
         langToggle: 'تغيير اللغة',
         langToggleAria: 'التبديل إلى العربية',
 

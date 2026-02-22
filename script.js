@@ -210,4 +210,53 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
+// PWA install banner
+let deferredPrompt = null;
+const installBanner = document.getElementById('installBanner');
+const installAccept = document.getElementById('installAccept');
+const installDismiss = document.getElementById('installDismiss');
+const installBtnInline = document.getElementById('installBtnInline');
+const INSTALL_DISMISSED_KEY = 'installDismissed';
+
+function triggerInstall() {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(() => {
+        deferredPrompt = null;
+        installBanner.classList.remove('show');
+        installBtnInline.hidden = true;
+    });
+}
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtnInline.hidden = false;
+
+    const dismissed = localStorage.getItem(INSTALL_DISMISSED_KEY);
+    if (!dismissed) {
+        setTimeout(() => { installBanner.classList.add('show'); }, 1500);
+    }
+});
+
+installAccept.addEventListener('click', triggerInstall);
+installBtnInline.addEventListener('click', triggerInstall);
+
+installDismiss.addEventListener('click', () => {
+    installBanner.classList.remove('show');
+    if (document.getElementById('installNoShow').checked) {
+        localStorage.setItem(INSTALL_DISMISSED_KEY, '1');
+    }
+});
+
+window.addEventListener('appinstalled', () => {
+    installBanner.classList.remove('show');
+    installBtnInline.hidden = true;
+    deferredPrompt = null;
+});
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+}
+
 init();
