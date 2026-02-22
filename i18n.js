@@ -152,10 +152,7 @@ let currentLang = 'ar';
 function detectLanguage() {
     const stored = localStorage.getItem('lang');
     if (stored && TRANSLATIONS[stored]) return stored;
-
-    const browserLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
-    if (browserLang.startsWith('ar')) return 'ar';
-    return 'en';
+    return 'ar';
 }
 
 function t(key, params) {
