@@ -1,10 +1,11 @@
 const STORAGE_KEY = 'usedCodes';
-const PRIORITY_CODES = [
-    'NG-Ydn0hQlj', // T
-    'NG-RoFVDevO', // M
-    'NG-shW1s48K', // B
-    'NG-GI9Ne6yS' // N
-];
+// const PRIORITY_CODES = [
+//     'NG-Ydn0hQlj', // T
+//     'NG-RoFVDevO', // M
+//     'NG-shW1s48K', // B
+//     'NG-GI9Ne6yS' // N
+// ];
+const PRIORITY_CODES = [];
 let allCodes = [];
 let usedCodesSet = new Set();
 let currentCode = null;
